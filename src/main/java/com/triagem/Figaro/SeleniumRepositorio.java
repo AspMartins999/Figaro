@@ -16,14 +16,14 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.Locale;
 
-public class SeleniumRepositorio {
+public class SeleniumRepositorio<usuario> {
     private WebDriver driver;
     private WebDriverWait wait;
 
     private long time = 15;
 
     @Test
-    public void login() throws InterruptedException {
+    public int login(int usuario) throws InterruptedException {
         String url = "https://pje1g.trf1.jus.br/";
         System.setProperty("webdriver.gecko.driver", "GeckoDriver.exe");
         driver = new FirefoxDriver();
@@ -44,7 +44,7 @@ public class SeleniumRepositorio {
         driver.findElement(By.id(pesquisar)).click();
         Thread.sleep(5000);
         teste2();
-    }
+    return 1; }
     public void teste2() throws InterruptedException {
         driver.navigate().to("https://pje1g.trf1.jus.br/pje/Processo/ConsultaProcesso/listView.seam");
 
@@ -65,10 +65,18 @@ public class SeleniumRepositorio {
         String polopassivo="/html/body/div[6]/div/div/div/div[2]/form/div[1]/div/div/div[5]/div[2]/table/tbody/tr/td[2]/label";
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(polopassivo)));
         driver.findElement(By.xpath(polopassivo)).click();
+        String idnomeparte1="fPP:j_id257:classeJudicial";
+        String nomeparte1="Ação Civil Pública";
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(idnomeparte1)));
+        driver.findElement(By.id(idnomeparte1)).sendKeys(nomeparte1);
+
+
+
         Thread.sleep(5000);
         String pesquisar="fPP:searchProcessos";
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id(pesquisar)));
         driver.findElement(By.id(pesquisar)).click();
+
 
     }
     public String data()  {
