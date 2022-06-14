@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -45,31 +47,17 @@ public class SeleniumRepositorio {
     }
     public void teste2() throws InterruptedException {
         driver.navigate().to("https://pje1g.trf1.jus.br/pje/Processo/ConsultaProcesso/listView.seam");
+
         LocalDateTime hoje = LocalDateTime.now();
-        String diadasemana= String.valueOf(hoje.getDayOfWeek());
-        if (diadasemana=="MONDAY"){
-            LocalDateTime sexta = hoje.minusDays(3);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            String sextaformatado= sexta.format(formatter);
-            String iddatasexta = "fPP:dataAutuacaoDecoration:dataAutuacaoInicioInputDate";
-            String datasexta=sextaformatado;
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.id(iddatasexta)));
-            driver.findElement(By.id(iddatasexta)).sendKeys(datasexta);
-        }else{
-            LocalDateTime ontem = hoje.minusDays(1);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            String ontemformatado= ontem.format(formatter);
-            String iddataontem = "fPP:dataAutuacaoDecoration:dataAutuacaoInicioInputDate";
-            String dataontem=ontemformatado;
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.id(iddataontem)));
-            driver.findElement(By.id(iddataontem)).sendKeys(dataontem);
-        }
+        String iddatahoje = "fPP:dataAutuacaoDecoration:dataAutuacaoFimInputDate";
+        String iddatasexta = "fPP:dataAutuacaoDecoration:dataAutuacaoInicioInputDate";
+        String iddataontem = "fPP:dataAutuacaoDecoration:dataAutuacaoInicioInputDate";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String hojeformatado= hoje.format(formatter);
-        String iddatahoje = "fPP:dataAutuacaoDecoration:dataAutuacaoFimInputDate";
-        String datahoje=hojeformatado;
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(iddatasexta)));
+        driver.findElement(By.id(iddatasexta)).sendKeys(data());
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id(iddatahoje)));
-        driver.findElement(By.id(iddatahoje)).sendKeys(datahoje);
+        driver.findElement(By.id(iddatahoje)).sendKeys(hojeformatado);
         String idnomeparte = "fPP:j_id150:nomeParte";
         String nomeparte="inss";
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id(idnomeparte)));
@@ -82,13 +70,22 @@ public class SeleniumRepositorio {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id(pesquisar)));
         driver.findElement(By.id(pesquisar)).click();
 
+    }
+    public String data()  {
+        LocalDateTime hoje = LocalDateTime.now();
+        String diadasemana= String.valueOf(hoje.getDayOfWeek());
+        if (diadasemana.equals("MONDAY")){
+            LocalDateTime sexta = hoje.minusDays(3);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String sextaformatado= sexta.format(formatter);
 
-
-
-
-
-
-
+            return sextaformatado;
+        }else{
+            LocalDateTime ontem = hoje.minusDays(1);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String ontemformatado= ontem.format(formatter);
+           return ontemformatado;
+        }
 
     }
 }

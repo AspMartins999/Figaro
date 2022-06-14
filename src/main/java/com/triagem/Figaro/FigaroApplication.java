@@ -12,7 +12,7 @@ public class FigaroApplication {
 		SpringApplication.run(FigaroApplication.class, args);
 
 
-		
+
 
 
 
