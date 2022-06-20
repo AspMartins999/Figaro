@@ -2,6 +2,7 @@ package com.triagem.Figaro;
 
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -14,9 +15,10 @@ import java.time.format.DateTimeFormatter;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
-
-import static sun.swing.SwingUtilities2.submit;
+import java.util.Set;
 
 public class SeleniumRepositorio<usuario> {
     private WebDriver driver;
@@ -66,23 +68,31 @@ public class SeleniumRepositorio<usuario> {
         String polopassivo="/html/body/div[6]/div/div/div/div[2]/form/div[1]/div/div/div[5]/div[2]/table/tbody/tr/td[2]/label";
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(polopassivo)));
         driver.findElement(By.xpath(polopassivo)).click();
-        String idnomeparte1="fPP:j_id257:classeJudicial";
-        String nomeparte1="Ação Civil Pública";
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(idnomeparte1)));
-        driver.findElement(By.id(idnomeparte1)).sendKeys(nomeparte1);
+        //String idnomeparte1="fPP:j_id257:classeJudicial";
+        //String nomeparte1="Ação Civil Pública";
+        //wait.until(ExpectedConditions.presenceOfElementLocated(By.id(idnomeparte1)));
+        //driver.findElement(By.id(idnomeparte1)).sendKeys(nomeparte1);
         Thread.sleep(5000);
         String pesquisar="fPP:searchProcessos";
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(pesquisar)));
         driver.findElement(By.id(pesquisar)).click();
+
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(pesquisar)));
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[1]/td[1]")));
         driver.findElement(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[1]/td[1]")).click();
+
         Thread.sleep(4000);
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div[2]/div[2]/table/tbody/tr[2]/td/table/tbody/tr/td/form[1]/div[2]/div[1]/div[5]/div[2]/div[1]/ul/li[1]/a/span")));
-        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[2]/table/tbody/tr[2]/td/table/tbody/tr/td/form[1]/div[2]/div[1]/div[5]/div[2]/div[1]/ul/li[1]/a/span"));
-        String download = "detalheDocumento:download";
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(download)));
-        driver.findElement(By.id(download)).click();
-        submit();
+        String spam="/html/body/div[2]/div[2]/div[2]/table/tbody/tr[2]/td/table/tbody/tr/td/form[1]/div[2]/div[1]/div[5]/div[2]/div[1]/ul/li[1]/a/span";
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(spam)));
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(spam)));
+        driver.findElement(By.xpath(spam)).click();
+
+        String download = "/html/body/div[2]/div[2]/div[2]/table/tbody/tr[2]/td/table/tbody/tr/td/form[2]/div[3]/div[2]/div[3]/ul/li[3]/a/i";
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(download)));
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(download)));
+        driver.findElement(By.xpath(download)).click();
+        //driver.findElement(By.xpath(download)).sendKeys(Keys.ENTER);
+
 
     }
     public String data()  {
