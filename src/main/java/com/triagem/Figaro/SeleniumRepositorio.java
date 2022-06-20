@@ -16,6 +16,8 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.Locale;
 
+import static sun.swing.SwingUtilities2.submit;
+
 public class SeleniumRepositorio<usuario> {
     private WebDriver driver;
     private WebDriverWait wait;
@@ -51,7 +53,6 @@ public class SeleniumRepositorio<usuario> {
         LocalDateTime hoje = LocalDateTime.now();
         String iddatahoje = "fPP:dataAutuacaoDecoration:dataAutuacaoFimInputDate";
         String iddatasexta = "fPP:dataAutuacaoDecoration:dataAutuacaoInicioInputDate";
-        String iddataontem = "fPP:dataAutuacaoDecoration:dataAutuacaoInicioInputDate";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String hojeformatado= hoje.format(formatter);
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id(iddatasexta)));
@@ -69,14 +70,19 @@ public class SeleniumRepositorio<usuario> {
         String nomeparte1="Ação Civil Pública";
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id(idnomeparte1)));
         driver.findElement(By.id(idnomeparte1)).sendKeys(nomeparte1);
-
-
-
         Thread.sleep(5000);
         String pesquisar="fPP:searchProcessos";
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id(pesquisar)));
         driver.findElement(By.id(pesquisar)).click();
-
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[1]/td[1]")));
+        driver.findElement(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[1]/td[1]")).click();
+        Thread.sleep(4000);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div[2]/div[2]/table/tbody/tr[2]/td/table/tbody/tr/td/form[1]/div[2]/div[1]/div[5]/div[2]/div[1]/ul/li[1]/a/span")));
+        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[2]/table/tbody/tr[2]/td/table/tbody/tr/td/form[1]/div[2]/div[1]/div[5]/div[2]/div[1]/ul/li[1]/a/span"));
+        String download = "detalheDocumento:download";
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(download)));
+        driver.findElement(By.id(download)).click();
+        submit();
 
     }
     public String data()  {
