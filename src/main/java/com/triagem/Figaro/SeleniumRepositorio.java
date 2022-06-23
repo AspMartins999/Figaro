@@ -145,6 +145,7 @@ public class SeleniumRepositorio<usuario> {
                 //Actions action = new Actions(driver);
                 //action.sendKeys(Keys.chord(Keys.ENTER));
                 driver.close();
+
             }
         }
 
