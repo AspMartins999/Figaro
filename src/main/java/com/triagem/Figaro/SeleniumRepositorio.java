@@ -82,7 +82,7 @@ public class SeleniumRepositorio<usuario> {
         driver.navigate().to(urlpesquisa);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         String janelapadrao = driver.getWindowHandle();
-        pesquisa(janelapadrao,urlpesquisa);
+        pesquisa(janelapadrao,urlpesquisa) ;
 
         }
     public String pesquisa(String janelapadrao, String urlpesquisa) throws InterruptedException, AWTException {
