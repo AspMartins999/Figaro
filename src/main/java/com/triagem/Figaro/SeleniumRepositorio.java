@@ -27,7 +27,7 @@ public class SeleniumRepositorio<usuario> {
     private long time = 15;
 
 
-    public int login(int usuario) throws InterruptedException {
+    public void login() throws InterruptedException {
         String url = "https://pje1g.trf1.jus.br/";
         System.setProperty("webdriver.gecko.driver", "GeckoDriver.exe");
         driver = new FirefoxDriver();
@@ -49,7 +49,7 @@ public class SeleniumRepositorio<usuario> {
         driver.findElement(By.id(pesquisar)).click();
         Thread.sleep(5000);
         teste2();
-    return 1; }
+        }
     public void teste2() throws InterruptedException {
         driver.navigate().to("https://pje1g.trf1.jus.br/pje/Processo/ConsultaProcesso/listView.seam");
         driver.manage().window().maximize();

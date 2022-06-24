@@ -13,8 +13,7 @@ public class FigaroApplication {
 
 
 
-			int usuario=1;
-			login.login(usuario);
+			login.login();
 
 
 
