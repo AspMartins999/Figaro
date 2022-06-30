@@ -34,7 +34,7 @@ public class SeleniumRepositorio<usuario> {
     private long time = 15;
 
 
-    public int login(int usuario) throws InterruptedException, AWTException {
+    public void login() throws InterruptedException, AWTException {
         String url = "https://pje1g.trf1.jus.br/";
         System.setProperty("webdriver.gecko.driver", "GeckoDriver.exe");
         ProfilesIni profile= new ProfilesIni();
@@ -76,7 +76,7 @@ public class SeleniumRepositorio<usuario> {
 
 
         teste2();
-    return 1; }
+    }
     public void teste2() throws InterruptedException, AWTException {
         String urlpesquisa= "https://pje1g.trf1.jus.br/pje/Processo/ConsultaProcesso/listView.seam";
         driver.navigate().to(urlpesquisa);
