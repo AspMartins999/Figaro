@@ -13,6 +13,7 @@ public class FigaroApplication {
 
 		SeleniumRepositorio login = new SeleniumRepositorio();
 
-		login.login();
+		int usuario = 0;
+		login.login(usuario);
 	}
 }

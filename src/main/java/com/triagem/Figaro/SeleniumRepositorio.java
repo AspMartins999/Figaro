@@ -178,19 +178,20 @@ public class SeleniumRepositorio<usuario> {
 
     }
 
-    public String classejudicial(int i) {
-        if (i == 0) {
-            return "Ação Civil Pública";
-        } else if (i == 1) {
-            return "Ação Coletiva";
+    public String classejudicial(int i){
+        switch (i){
+            case 0:
+                return "Ação Civil Pública";
+            case 1:
+                return "Ação Coletiva";
+            case 2:
+                return "Mandado de Segurança Coletivo";
+            case 3:
+                return "Ação Popular";
+            default:
+                return "";
 
-        } else if (i == 2) {
-            return "Mandado de Segurança Coletivo";
-
-        } else if (i == 3) {
-            return "Ação Popular";
-        } else
-            return "";
+        }
     }
 
     public void janeladownload(String janelapadrao) throws InterruptedException, AWTException {
