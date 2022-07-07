@@ -139,7 +139,7 @@ public class SeleniumRepositorio<usuario> {
 
                     driver.switchTo().window(janelapadrao);
                 } else {
-                    driver.get(urlpesquisa);
+                    driver.get(urlpesquisa) ;
 
                 }
 
