@@ -84,13 +84,24 @@ public class SeleniumRepositorio<usuario> {
         driver.navigate().to(urlpesquisa);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         String janelapadrao = driver.getWindowHandle();
+
         pesquisa(janelapadrao, urlpesquisa);
 
     }
 
     public String pesquisa(String janelapadrao, String urlpesquisa) throws InterruptedException, AWTException {
         LocalDateTime hoje = LocalDateTime.now();
-        for (int i = 0; i < 6; i++) {
+        String[] pesquisa = new String[6];
+
+
+        pesquisa[0] = "Ação Civil Pública";
+
+        pesquisa[1] =  "Ação Coletiva";
+        pesquisa[2] =  "Mandado de Segurança Coletivo";
+        pesquisa[3] = "Ação Popular";
+        pesquisa[4] =  "Ação Coletiva";
+        pesquisa[5] =  "Mandado de Segurança Coletivo";
+        for (int i = 0; i < pesquisa.length; i++) {
             driver.get(urlpesquisa);
             String iddatahoje = "fPP:dataAutuacaoDecoration:dataAutuacaoFimInputDate";
             String iddatasexta = "fPP:dataAutuacaoDecoration:dataAutuacaoInicioInputDate";
@@ -108,7 +119,7 @@ public class SeleniumRepositorio<usuario> {
             wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(polopassivo)));
             driver.findElement(By.xpath(polopassivo)).click();
             String idnomeparte1 = "fPP:j_id257:classeJudicial";
-            String nomeparte1 = classejudicial(i);
+            String nomeparte1 = pesquisa[i];
             wait.until(ExpectedConditions.presenceOfElementLocated(By.id(idnomeparte1)));
             driver.findElement(By.id(idnomeparte1)).sendKeys(nomeparte1);
             String assuntoid = "fPP:j_id248:assunto";
@@ -118,6 +129,10 @@ public class SeleniumRepositorio<usuario> {
             String pesquisar = "fPP:searchProcessos";
             wait.until(ExpectedConditions.presenceOfElementLocated(By.id(pesquisar)));
             driver.findElement(By.id(pesquisar)).click();
+
+
+            // novaFuncao
+
             Thread.sleep(9000);
             WebElement TabelaTref = driver.findElement(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody"));
             List<WebElement> listaMovimentacao = new ArrayList<>(TabelaTref.findElements(By.cssSelector("tr")));
