@@ -22,6 +22,7 @@ import java.time.Duration;
 
 //
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -75,108 +76,103 @@ public class SeleniumRepositorio<usuario> {
         Thread.sleep(2000);
 
 
-        teste2();
+        automatização();
         return 1;
     }
 
-    public void teste2() throws InterruptedException, AWTException {
+    public void automatização() throws InterruptedException, AWTException {
         String urlpesquisa = "https://pje1g.trf1.jus.br/pje/Processo/ConsultaProcesso/listView.seam";
         driver.navigate().to(urlpesquisa);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         String janelapadrao = driver.getWindowHandle();
+        String classes = "1,2,3";
 
-        pesquisa(janelapadrao, urlpesquisa);
+        List<String> id_classes = new ArrayList<>(Arrays.asList(classes.split(",")));
+        for(int i = 0; i < id_classes.size(); i++){
+            int pesquisaClasse = Integer.parseInt(id_classes.get(i));
 
+
+            entradadados(urlpesquisa,pesquisaClasse, i);
+            pesquisa(janelapadrao, urlpesquisa);
+        }
     }
 
-    public String pesquisa(String janelapadrao, String urlpesquisa) throws InterruptedException, AWTException {
+
+
+    public void entradadados(String urlpesquisa, int pesquisaClasse, int i){
         LocalDateTime hoje = LocalDateTime.now();
         String[] pesquisa = new String[6];
 
 
-        pesquisa[0] = "Ação Civil Pública";
+        pesquisa[0] = "Ação Coletiva";
 
-        pesquisa[1] =  "Ação Coletiva";
-        pesquisa[2] =  "Mandado de Segurança Coletivo";
+        pesquisa[1] = "Ação Civil Pública";
+        pesquisa[2] = "Mandado de Segurança Coletivo";
         pesquisa[3] = "Ação Popular";
-        pesquisa[4] =  "Ação Coletiva";
-        pesquisa[5] =  "Mandado de Segurança Coletivo";
-        for (int i = 0; i < pesquisa.length; i++) {
-            driver.get(urlpesquisa);
-            String iddatahoje = "fPP:dataAutuacaoDecoration:dataAutuacaoFimInputDate";
-            String iddatasexta = "fPP:dataAutuacaoDecoration:dataAutuacaoInicioInputDate";
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            String hojeformatado = hoje.format(formatter);
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.id(iddatasexta)));
-            driver.findElement(By.id(iddatasexta)).sendKeys(data());
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.id(iddatahoje)));
-            driver.findElement(By.id(iddatahoje)).sendKeys(hojeformatado);
-            String idnomeparte = "fPP:j_id150:nomeParte";
-            String nomeparte = "inss";
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.id(idnomeparte)));
-            driver.findElement(By.id(idnomeparte)).sendKeys(nomeparte);
-            String polopassivo = "/html/body/div[6]/div/div/div/div[2]/form/div[1]/div/div/div[5]/div[2]/table/tbody/tr/td[2]/label";
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(polopassivo)));
-            driver.findElement(By.xpath(polopassivo)).click();
-            String idnomeparte1 = "fPP:j_id257:classeJudicial";
-            String nomeparte1 = pesquisa[i];
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.id(idnomeparte1)));
-            driver.findElement(By.id(idnomeparte1)).sendKeys(nomeparte1);
-            String assuntoid = "fPP:j_id248:assunto";
-            String assunto = assunto(i);
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.id(assuntoid)));
-            driver.findElement(By.id(assuntoid)).sendKeys(assunto);
-            String pesquisar = "fPP:searchProcessos";
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.id(pesquisar)));
-            driver.findElement(By.id(pesquisar)).click();
+        pesquisa[4] = "Ação Coletiva";
+        pesquisa[5] = "Mandado de Segurança Coletivo";
+
+        driver.get(urlpesquisa);
+        String iddatahoje = "fPP:dataAutuacaoDecoration:dataAutuacaoFimInputDate";
+        String iddatasexta = "fPP:dataAutuacaoDecoration:dataAutuacaoInicioInputDate";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String hojeformatado = hoje.format(formatter);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(iddatasexta)));
+        driver.findElement(By.id(iddatasexta)).sendKeys(data());
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(iddatahoje)));
+        driver.findElement(By.id(iddatahoje)).sendKeys(hojeformatado);
+        String idnomeparte = "fPP:j_id150:nomeParte";
+        String nomeparte = "inss";
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(idnomeparte)));
+        driver.findElement(By.id(idnomeparte)).sendKeys(nomeparte);
+        String polopassivo = "/html/body/div[6]/div/div/div/div[2]/form/div[1]/div/div/div[5]/div[2]/table/tbody/tr/td[2]/label";
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(polopassivo)));
+        driver.findElement(By.xpath(polopassivo)).click();
+        String idnomeparte1 = "fPP:j_id257:classeJudicial";
+        String nomeparte1 = pesquisa[i];
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(idnomeparte1)));
+        driver.findElement(By.id(idnomeparte1)).sendKeys(nomeparte1);
+        //String assuntoid = "fPP:j_id248:assunto";
+        //String assunto = "oi";
+        //wait.until(ExpectedConditions.presenceOfElementLocated(By.id(assuntoid)));
+        //driver.findElement(By.id(assuntoid)).sendKeys(assunto);
+        String pesquisar = "fPP:searchProcessos";
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(pesquisar)));
+        driver.findElement(By.id(pesquisar)).click();
+
+    }
+    public void pesquisa(String janelapadrao, String urlpesquisa) throws InterruptedException, AWTException {
+        String displayNone = "";
+        System.out.println("Display none? " + displayNone );
+        while (!displayNone.equals("display: none;")){
+            displayNone = driver.findElement(By.id("_viewRoot:status.start")).getAttribute("style");
+        }
+        WebElement TabelaTref = driver.findElement(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody"));
+        List<WebElement> listaMovimentacao = new ArrayList<>(TabelaTref.findElements(By.cssSelector("tr")));
+        for (int j = listaMovimentacao.size(); j > 0; j--) {
+            Boolean isPresent = driver.findElements(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]")).size() > 0;
+            System.out.println(isPresent);
+            if (isPresent) {
+                wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]")));
+                wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]/td[1]")));
+                driver.findElement(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]/td[1]")).click();
+                Thread.sleep(1500);
+                System.setProperty("java.awt.headless", "false");
+                Robot robot = new Robot();
+                robot.keyPress(KeyEvent.VK_ENTER);
+                robot.keyPress(KeyEvent.VK_ENTER);
+                Thread.sleep(2000);
+                janeladownload(janelapadrao);
 
 
-            // novaFuncao
-
-            Thread.sleep(9000);
-            WebElement TabelaTref = driver.findElement(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody"));
-            List<WebElement> listaMovimentacao = new ArrayList<>(TabelaTref.findElements(By.cssSelector("tr")));
-            for (int j = listaMovimentacao.size(); j > 0; j--) {
-                Boolean isPresent = driver.findElements(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]")).size() > 0;
-                System.out.println(isPresent);
-                if (isPresent) {
-                    wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]")));
-                    wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]/td[1]")));
-                    driver.findElement(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]/td[1]")).click();
-                    Thread.sleep(1500);
-                    System.setProperty("java.awt.headless", "false");
-                    Robot robot = new Robot();
-                    robot.keyPress(KeyEvent.VK_ENTER);
-                    robot.keyPress(KeyEvent.VK_ENTER);
-                    Thread.sleep(2000);
-                    janeladownload(janelapadrao);
-
-
-                    driver.switchTo().window(janelapadrao);
-                } else {
-                    driver.get(urlpesquisa) ;
-
-                }
+                driver.switchTo().window(janelapadrao);
+            } else {
+                driver.get(urlpesquisa) ;
 
             }
 
         }
-        return janelapadrao;
     }
-
-    private String assunto(int i) {
-        if (i == 4) {
-            return "Licitações";
-
-        } else if (i == 5) {
-            return "Improbidade Administrativa";
-
-        } else {
-            return "";
-        }
-    }
-
-
     public String data() {
         LocalDateTime hoje = LocalDateTime.now();
         String diadasemana = String.valueOf(hoje.getDayOfWeek());
@@ -191,22 +187,6 @@ public class SeleniumRepositorio<usuario> {
 
         }
 
-    }
-
-    public String classejudicial(int i){
-        switch (i){
-            case 0:
-                return "Ação Civil Pública";
-            case 1:
-                return "Ação Coletiva";
-            case 2:
-                return "Mandado de Segurança Coletivo";
-            case 3:
-                return "Ação Popular";
-            default:
-                return "";
-
-        }
     }
 
     public void janeladownload(String janelapadrao) throws InterruptedException, AWTException {
@@ -271,8 +251,3 @@ public class SeleniumRepositorio<usuario> {
 
     }
 }
-
-
-
-
-
