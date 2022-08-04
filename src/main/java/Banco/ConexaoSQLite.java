@@ -361,7 +361,7 @@ public class ConexaoSQLite {
     public boolean conectar() {
 
         try {
-            String url = "jdbc:sqlite:BeremizDB.db";
+            String url = "jdbc:sqlite:FigaroDB.db";
 
             this.conexao = DriverManager.getConnection(url);
             System.out.println("Conectado");
