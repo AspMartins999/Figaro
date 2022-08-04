@@ -1,4 +1,4 @@
-package com.triagem.Figaro;
+package repository;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.*;
