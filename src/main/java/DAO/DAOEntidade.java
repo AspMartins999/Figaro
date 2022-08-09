@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 public class DAOEntidade extends ConexaoSQLite {
 
-    public void salvarEntidadeDAO(Entidade entidade) {
+    public boolean salvarEntidadeDAO(Entidade entidade) {
         conectar();
         String sql = "INSERT INTO Entidade(" +
                 "nome, " +
@@ -27,15 +27,32 @@ public class DAOEntidade extends ConexaoSQLite {
 
         }catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
         desconectar();
+        return true;
     }
 
-    public void excluirEntidade()  {
+    public boolean excluirEntidade()  {
         conectar();
         PreparedStatement preparedStatement;
         String sql = "DELETE FROM entidade";
-
-
+        preparedStatement = this.criarPreparedStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        try{
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+        this.desconectar();
+        return true;
     }
 }
