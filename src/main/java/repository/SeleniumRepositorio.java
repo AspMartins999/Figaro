@@ -34,6 +34,7 @@ public class SeleniumRepositorio<usuario> {
     private WebDriverWait wait;
 
     private long time = 15;
+    String urlpesquisa = "https://pje1g.trf1.jus.br/pje/Processo/ConsultaProcesso/listView.seam";
 
 
     public int login(int usuario) throws InterruptedException, AWTException {
@@ -68,12 +69,13 @@ public class SeleniumRepositorio<usuario> {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(a)));
         driver.findElement(By.xpath(c)).sendKeys(d);
         Thread.sleep(2000);
-        String pesquisar = "btnEntrar";
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(pesquisar)));
-        driver.findElement(By.id(pesquisar)).click();
-
-
+        String btnEntrar = "btnEntrar";
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(btnEntrar)));
+        driver.findElement(By.id(btnEntrar)).click();
         Thread.sleep(2000);
+
+
+        driver.navigate().to(urlpesquisa);
 
 
         automatização();
@@ -81,8 +83,6 @@ public class SeleniumRepositorio<usuario> {
     }
 
     public void automatização() throws InterruptedException, AWTException {
-        String urlpesquisa = "https://pje1g.trf1.jus.br/pje/Processo/ConsultaProcesso/listView.seam";
-        driver.navigate().to(urlpesquisa);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         String janelapadrao = driver.getWindowHandle();
         String classes = "1,2,3";
