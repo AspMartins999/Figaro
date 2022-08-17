@@ -31,7 +31,7 @@ public class SeleniumRepositorio<usuario> {
 
     private WebDriverWait wait;
 
-    private long time = 15;
+    private long time = 15 ;
 
 
     public int login(int usuario) throws InterruptedException, AWTException {
