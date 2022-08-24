@@ -21,8 +21,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.Duration;
 
 //
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 
 public class SeleniumRepositorio<usuario> {
@@ -31,7 +33,7 @@ public class SeleniumRepositorio<usuario> {
 
     private WebDriverWait wait;
 
-    private long time = 15 ;
+    private long time = 15;
 
 
     public int login(int usuario) throws InterruptedException, AWTException {
@@ -91,7 +93,7 @@ public class SeleniumRepositorio<usuario> {
 
 
             entradadados(urlpesquisa,pesquisaClasse, i);
-            pesquisaExceçoes(janelapadrao, urlpesquisa);
+            pesquisa(janelapadrao, urlpesquisa);
         }
     }
 
@@ -120,16 +122,16 @@ public class SeleniumRepositorio<usuario> {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id(iddatahoje)));
         driver.findElement(By.id(iddatahoje)).sendKeys(hojeformatado);
         String idnomeparte = "fPP:j_id150:nomeParte";
-        String nomeparte = "AGÊNCIA NACIONAL DE TRANSPORTES TERRESTRES";
+        String nomeparte = "inss";
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id(idnomeparte)));
         driver.findElement(By.id(idnomeparte)).sendKeys(nomeparte);
         String polopassivo = "/html/body/div[6]/div/div/div/div[2]/form/div[1]/div/div/div[5]/div[2]/table/tbody/tr/td[2]/label";
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(polopassivo)));
         driver.findElement(By.xpath(polopassivo)).click();
-        //String idnomeparte1 = "fPP:j_id257:classeJudicial";
-        //String nomeparte1 = pesquisa[i];
-        //wait.until(ExpectedConditions.presenceOfElementLocated(By.id(idnomeparte1)));
-        //driver.findElement(By.id(idnomeparte1)).sendKeys(nomeparte1);
+        String idnomeparte1 = "fPP:j_id257:classeJudicial";
+        String nomeparte1 = pesquisa[i];
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(idnomeparte1)));
+        driver.findElement(By.id(idnomeparte1)).sendKeys(nomeparte1);
         //String assuntoid = "fPP:j_id248:assunto";
         //String assunto = "oi";
         //wait.until(ExpectedConditions.presenceOfElementLocated(By.id(assuntoid)));
@@ -139,7 +141,6 @@ public class SeleniumRepositorio<usuario> {
         driver.findElement(By.id(pesquisar)).click();
 
     }
-
     public void pesquisa(String janelapadrao, String urlpesquisa) throws InterruptedException, AWTException {
         String displayNone = "";
         System.out.println("Display none? " + displayNone );
@@ -150,6 +151,7 @@ public class SeleniumRepositorio<usuario> {
         List<WebElement> listaMovimentacao = new ArrayList<>(TabelaTref.findElements(By.cssSelector("tr")));
         for (int j = listaMovimentacao.size(); j > 0; j--) {
             Boolean isPresent = driver.findElements(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]")).size() > 0;
+            System.out.println(isPresent);
             if (isPresent) {
                 wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]")));
                 wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]/td[1]")));
@@ -169,41 +171,6 @@ public class SeleniumRepositorio<usuario> {
 
             }
 
-        }
-    }
-    public void pesquisaExceçoes(String janelapadrao, String urlpesquisa) throws InterruptedException, AWTException {
-        String displayNone = "";
-        System.out.println("Display none? " + displayNone );
-        while (!displayNone.equals("display: none;")){
-            displayNone = driver.findElement(By.id("_viewRoot:status.start")).getAttribute("style");
-        }
-        WebElement TabelaTref = driver.findElement(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody"));
-        List<WebElement> listaMovimentacao = new ArrayList<>(TabelaTref.findElements(By.cssSelector("tr")));
-        for (int j = listaMovimentacao.size(); j > 0; j--) {
-            Boolean isPresent = driver.findElements(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]")).size() > 0;
-            if (isPresent) {
-                wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]/td[5]")));
-                wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]/td[5]")));
-                String verifica = driver.findElement(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]/td[5]")).getText().toUpperCase();
-                Set<String> exceões = new HashSet<String>(Arrays.asList(
-                        "EXECUÇÃO FISCAL", "EMBARGOS À EXECUÇÃO FISCAL", "CARTA PRECATÓRIA", "CUMPRIMENTO DE SENTENÇA", "PROCEDIMENTO DE JUIZADO ESPECIAL"
-                ));
-                if(exceões.contains(verifica)){
-                    j--;
-                }else{
-                    driver.findElement(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]/td[1]")).click();
-                    Thread.sleep(1500);
-                    System.setProperty("java.awt.headless", "false");
-                    Robot robot = new Robot();
-                    robot.keyPress(KeyEvent.VK_ENTER);
-                    robot.keyPress(KeyEvent.VK_ENTER);
-                    Thread.sleep(2000);
-                    janeladownload(janelapadrao);
-                    driver.switchTo().window(janelapadrao);
-                }
-            } else {
-                driver.get(urlpesquisa) ;
-            }
         }
     }
     public String data() {
@@ -263,7 +230,7 @@ public class SeleniumRepositorio<usuario> {
                     String download1 = "download";
                     wait.until(ExpectedConditions.presenceOfElementLocated(By.id(download1)));
                     wait.until(ExpectedConditions.elementToBeClickable(By.id(download1)));
-                    /*Thread.sleep(3000);
+                    Thread.sleep(3000);
                     driver.findElement(By.id(download1)).click();
 
                     System.setProperty("java.awt.headless", "false");
@@ -273,7 +240,7 @@ public class SeleniumRepositorio<usuario> {
                     robot.keyPress(KeyEvent.VK_ENTER);
 
                     Thread.sleep(2000);
-                    */driver.close();
+                    driver.close();
 
                 } catch (Exception e) {
                     System.out.println(e);
