@@ -55,4 +55,5 @@ public class DAOEntidade extends ConexaoSQLite {
         this.desconectar();
         return true;
     }
+
 }
