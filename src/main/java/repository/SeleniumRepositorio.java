@@ -20,14 +20,13 @@ import java.time.format.DateTimeFormatter;
 
 import java.time.Duration;
 
-//
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
 
 public class SeleniumRepositorio<usuario> {
+    String urlpesquisa = "https://pje1g.trf1.jus.br/pje/Processo/ConsultaProcesso/listView.seam";
     public WebDriver driver;
     public int z=1;
 
@@ -36,7 +35,7 @@ public class SeleniumRepositorio<usuario> {
     private long time = 15;
 
 
-    public int login(int usuario) throws InterruptedException, AWTException {
+    public int login() throws InterruptedException, AWTException {
         String url = "https://pje1g.trf1.jus.br/";
         System.setProperty("webdriver.gecko.driver", "GeckoDriver.exe");
         ProfilesIni profile = new ProfilesIni();
@@ -80,38 +79,19 @@ public class SeleniumRepositorio<usuario> {
         return 1;
     }
 
-    public void automatização() throws InterruptedException, AWTException {
+    public String automatização() throws InterruptedException, AWTException {
         String urlpesquisa = "https://pje1g.trf1.jus.br/pje/Processo/ConsultaProcesso/listView.seam";
         driver.navigate().to(urlpesquisa);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         String janelapadrao = driver.getWindowHandle();
-        String classes = "1,2,3";
 
-        List<String> id_classes = new ArrayList<>(Arrays.asList(classes.split(",")));
-        for(int i = 0; i < id_classes.size(); i++){
-            int pesquisaClasse = Integer.parseInt(id_classes.get(i));
-
-
-            entradadados(urlpesquisa,pesquisaClasse, i);
-            pesquisa(janelapadrao, urlpesquisa);
-        }
+      return janelapadrao;
     }
 
 
 
-    public void entradadados(String urlpesquisa, int pesquisaClasse, int i){
+    public void entradadados(String judicialclass){
         LocalDateTime hoje = LocalDateTime.now();
-        String[] pesquisa = new String[6];
-
-
-        pesquisa[0] = "Ação Coletiva";
-
-        pesquisa[1] = "Ação Civil Pública";
-        pesquisa[2] = "Mandado de Segurança Coletivo";
-        pesquisa[3] = "Ação Popular";
-        pesquisa[4] = "Ação Coletiva";
-        pesquisa[5] = "Mandado de Segurança Coletivo";
-
         driver.get(urlpesquisa);
         String iddatahoje = "fPP:dataAutuacaoDecoration:dataAutuacaoFimInputDate";
         String iddatasexta = "fPP:dataAutuacaoDecoration:dataAutuacaoInicioInputDate";
@@ -129,9 +109,9 @@ public class SeleniumRepositorio<usuario> {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(polopassivo)));
         driver.findElement(By.xpath(polopassivo)).click();
         String idnomeparte1 = "fPP:j_id257:classeJudicial";
-        String nomeparte1 = pesquisa[i];
+        String classe_judicial = judicialclass;
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id(idnomeparte1)));
-        driver.findElement(By.id(idnomeparte1)).sendKeys(nomeparte1);
+        driver.findElement(By.id(idnomeparte1)).sendKeys(classe_judicial);
         //String assuntoid = "fPP:j_id248:assunto";
         //String assunto = "oi";
         //wait.until(ExpectedConditions.presenceOfElementLocated(By.id(assuntoid)));
@@ -141,7 +121,7 @@ public class SeleniumRepositorio<usuario> {
         driver.findElement(By.id(pesquisar)).click();
 
     }
-    public void pesquisa(String janelapadrao, String urlpesquisa) throws InterruptedException, AWTException {
+    public void pesquisa(String janelapadrao) throws InterruptedException, AWTException {
         String displayNone = "";
         System.out.println("Display none? " + displayNone );
         while (!displayNone.equals("display: none;")){
