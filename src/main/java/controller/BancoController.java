@@ -1,6 +1,7 @@
 package controller;
 
 import Banco.ConexaoSQLite;
+import modelo.Assunto;
 import modelo.Classe_Judicial;
 import modelo.Entidade;
 import repository.SeleniumRepositorio;
@@ -52,6 +53,23 @@ public class BancoController {
         }
         conexaoSQLite.desconectar();
         return classe;
+    }
+    public Assunto dadosassunto(String pesquisaassunto) {
+        Assunto assunto = new Assunto();
+        ConexaoSQLite conexaoSQLite = new ConexaoSQLite();
+        conexaoSQLite.conectar();
+        String sql = "SELECT * FROM Assunto where id=" + pesquisaassunto;
+        PreparedStatement statement = conexaoSQLite.criarPreparedStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        try {
+            ResultSet resultSet = statement.executeQuery();
+            assunto.setNome(resultSet.getString("nome"));
+
+        }
+        catch (Exception e){
+
+        }
+        conexaoSQLite.desconectar();
+        return assunto;
     }
 
     public List<Entidade> entidadeList() {

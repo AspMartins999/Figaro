@@ -90,7 +90,7 @@ public class SeleniumRepositorio<usuario> {
 
 
 
-    public void entradadados(String judicialclass){
+    public void entradadados(String filtropesquisa, String nome, int test){
         LocalDateTime hoje = LocalDateTime.now();
         driver.get(urlpesquisa);
         String iddatahoje = "fPP:dataAutuacaoDecoration:dataAutuacaoFimInputDate";
@@ -102,21 +102,24 @@ public class SeleniumRepositorio<usuario> {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id(iddatahoje)));
         driver.findElement(By.id(iddatahoje)).sendKeys(hojeformatado);
         String idnomeparte = "fPP:j_id150:nomeParte";
-        String nomeparte = "inss";
+        String nomeparte = nome;
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id(idnomeparte)));
         driver.findElement(By.id(idnomeparte)).sendKeys(nomeparte);
         String polopassivo = "/html/body/div[6]/div/div/div/div[2]/form/div[1]/div/div/div[5]/div[2]/table/tbody/tr/td[2]/label";
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(polopassivo)));
         driver.findElement(By.xpath(polopassivo)).click();
-        String idnomeparte1 = "fPP:j_id257:classeJudicial";
-        String classe_judicial = judicialclass;
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(idnomeparte1)));
-        driver.findElement(By.id(idnomeparte1)).sendKeys(classe_judicial);
-        //String assuntoid = "fPP:j_id248:assunto";
-        //String assunto = "oi";
-        //wait.until(ExpectedConditions.presenceOfElementLocated(By.id(assuntoid)));
-        //driver.findElement(By.id(assuntoid)).sendKeys(assunto);
-        String pesquisar = "fPP:searchProcessos";
+        if(test==0) {
+            String idclasse_judicial = "fPP:j_id257:classeJudicial";
+            String classe_judicial = filtropesquisa;
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.id(idclasse_judicial)));
+            driver.findElement(By.id(idclasse_judicial)).sendKeys(classe_judicial);
+        }else {
+            String assuntoid = "fPP:j_id248:assunto";
+            String assunto = filtropesquisa;
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.id(assuntoid)));
+            driver.findElement(By.id(assuntoid)).sendKeys(assunto);
+        }
+            String pesquisar = "fPP:searchProcessos";
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id(pesquisar)));
         driver.findElement(By.id(pesquisar)).click();
 
@@ -207,7 +210,7 @@ public class SeleniumRepositorio<usuario> {
             if (!handle1.equals(janelapadrao)) {
                 try {
                     driver.switchTo().window(handle1);
-                    String download1 = "download";
+                    /*String download1 = "download";
                     wait.until(ExpectedConditions.presenceOfElementLocated(By.id(download1)));
                     wait.until(ExpectedConditions.elementToBeClickable(By.id(download1)));
                     Thread.sleep(3000);
@@ -220,7 +223,7 @@ public class SeleniumRepositorio<usuario> {
                     robot.keyPress(KeyEvent.VK_ENTER);
 
                     Thread.sleep(2000);
-                    driver.close();
+                    */driver.close();
 
                 } catch (Exception e) {
                     System.out.println(e);
