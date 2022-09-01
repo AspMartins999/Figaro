@@ -20,9 +20,8 @@ import java.time.format.DateTimeFormatter;
 
 import java.time.Duration;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 
 
 public class SeleniumRepositorio<usuario> {
@@ -154,6 +153,41 @@ public class SeleniumRepositorio<usuario> {
 
             }
 
+        }
+    }
+    public void pesquisaExceçoes(String janelapadrao) throws InterruptedException, AWTException {
+        String displayNone = "";
+        System.out.println("Display none? " + displayNone );
+        while (!displayNone.equals("display: none;")){
+            displayNone = driver.findElement(By.id("_viewRoot:status.start")).getAttribute("style");
+        }
+        WebElement TabelaTref = driver.findElement(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody"));
+        List<WebElement> listaMovimentacao = new ArrayList<>(TabelaTref.findElements(By.cssSelector("tr")));
+        for (int j = listaMovimentacao.size(); j > 0; j--) {
+            Boolean isPresent = driver.findElements(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]")).size() > 0;
+            if (isPresent) {
+                wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]/td[5]")));
+                wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]/td[5]")));
+                String verifica = driver.findElement(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]/td[5]")).getText().toUpperCase();
+                Set<String> exceões = new HashSet<String>(Arrays.asList(
+                        "EXECUÇÃO FISCAL", "EMBARGOS À EXECUÇÃO FISCAL", "CARTA PRECATÓRIA", "CUMPRIMENTO DE SENTENÇA", "PROCEDIMENTO DE JUIZADO ESPECIAL"
+                ));
+                if(exceões.contains(verifica)){
+                    j--;
+                }else{
+                    driver.findElement(By.xpath("/html/body/div[6]/div/div/div/div[2]/form/div[2]/div/table/tbody/tr[" + j + "]/td[1]")).click();
+                    Thread.sleep(1500);
+                    System.setProperty("java.awt.headless", "false");
+                    Robot robot = new Robot();
+                    robot.keyPress(KeyEvent.VK_ENTER);
+                    robot.keyPress(KeyEvent.VK_ENTER);
+                    Thread.sleep(2000);
+                    janeladownload(janelapadrao);
+                    driver.switchTo().window(janelapadrao);
+                }
+            } else {
+                driver.get(urlpesquisa) ;
+            }
         }
     }
     public String data() {

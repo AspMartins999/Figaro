@@ -21,7 +21,7 @@ public class BancoController {
         Entidade entidade = new Entidade();
         ConexaoSQLite conexaoSQLite = new ConexaoSQLite();
         conexaoSQLite.conectar();
-        String sql = "SELECT * FROM Entidade where nome ="+"'"+"INSTITUTO NACIONAL DO SEGURO SOCIAL"+"'";
+        String sql = "SELECT * FROM Entidade where nome ="+"'"+"FUNDAÇÃO NACIONAL DO ÍNDIO"+"'";
         PreparedStatement statement = conexaoSQLite.criarPreparedStatement(sql, Statement.RETURN_GENERATED_KEYS);
         try {
             ResultSet resultSet = statement.executeQuery();
