@@ -93,6 +93,7 @@
             <Label layoutX="39.0" layoutY="24.0" prefHeight="25.0" prefWidth="104.0" text="CPF/CNPJ" />
             <Label layoutX="39.0" layoutY="92.0" prefHeight="13.0" prefWidth="104.0" text="Senha" />
             <CheckBox layoutX="39.0" layoutY="161.0" mnemonicParsing="false" text="Salvar Credenciais " />
+            <Pane layoutX="395.0" prefHeight="166.0" prefWidth="230.0" />
       </children>
     </AnchorPane>
   </children>
