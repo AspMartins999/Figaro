@@ -24,7 +24,7 @@ public class BancoController {
         String sql = "SELECT * FROM Entidade where nome ="+"'"+"FUNDAÇÃO NACIONAL DO ÍNDIO"+"'";
         PreparedStatement statement = conexaoSQLite.criarPreparedStatement(sql, Statement.RETURN_GENERATED_KEYS);
         try {
-            ResultSet resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery() ;
                 entidade.setNome(resultSet.getString("nome"));
                 entidade.setSigla(resultSet.getString("sigla"));
                 entidade.setId_classe_judicial(resultSet.getString("id_classe_judicial"));
